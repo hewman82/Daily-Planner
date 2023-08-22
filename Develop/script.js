@@ -8,12 +8,16 @@ $(function () {
   // function? How can DOM traversal be used to get the "hour-x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
+  var eventsList = [];
   $('.saveBtn').on('click', function saveInput() {
-    var calEvent = {
-    calHour: $(this).parentNode.id,
-    calVal: $(this).prev().val(),
-    };
-    localStorage.setItem('calEvent', JSON.stringify(calEvent));
+    var calHour = this.parentNode.id;
+    var calDes = $(this).prev().val();
+    var events = {
+      hour: calHour,
+      des: calDes
+    }
+    eventsList.push(events);
+    localStorage.setItem('calEvents', JSON.stringify(eventsList));
   })
 
   //
@@ -35,6 +39,13 @@ $(function () {
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
+  var savedEvents = JSON.parse(localStorage.getItem('calEvents'));
+  
+  for(i = 0; i < savedEvents.length; i++) {
+    var divId = savedEvents[i].hour;
+    var desVal = savedEvents[i].des;
+    $('#' + divId).children().eq(1).text(desVal);
+  }
 
   //
   // TODO: Add code to display the current date in the header of the page.
