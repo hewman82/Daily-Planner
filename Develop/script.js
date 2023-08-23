@@ -35,6 +35,16 @@ $(function () {
       //change all subsequent sibling div classes to future
       $('section').children().eq(i).nextAll().addClass('future');
     }
+    //if the current time is before 9am
+    if(hour < 9) {
+      //change all div classes to future
+      $('section').children().addClass('future');
+    }
+    //if the current time is after 5pm
+    if(hour > 17) {
+      //change all div classes to past
+      $('section').children().addClass('past');
+    }
   }
   //if eventsList array isn't empty
   if(eventsList !== null) {
