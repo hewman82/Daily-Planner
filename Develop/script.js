@@ -2,52 +2,53 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  var eventsList = [];
+  //pull saved objects from storage or create empty array if nothing is saved
+  var eventsList = JSON.parse(localStorage.getItem('calEvents')) || [];
+  //add listener for click events on the save button
   $('.saveBtn').on('click', function saveInput() {
+    //save id of parent div of button clicked
     var calHour = this.parentNode.id;
+    //save text entered in textarea
     var calDes = $(this).prev().val();
+    //save as key value pairs
     var events = {
       hour: calHour,
       des: calDes
     }
+    //add key value pairs to array
     eventsList.push(events);
+    //save array to storage
     localStorage.setItem('calEvents', JSON.stringify(eventsList));
+    console.log(eventsList);
   })
 
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
+  //save current time in 24 hour format
   var hour = dayjs().format('H');
-  
+  //loop through child divs of section element
   for(i=0;i<9;i++) {
+    //if div id matches current time
     if($('section').children().eq(i).attr('id').includes(hour)) {
+      //change div class to present
       $('section').children().eq(i).addClass('present');
+      //change all previous sibling div classes to past
       $('section').children().eq(i).prevAll().addClass('past');
+      //change all subsequent sibling div classes to future
       $('section').children().eq(i).nextAll().addClass('future');
     }
   }
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  var savedEvents = JSON.parse(localStorage.getItem('calEvents'));
-  
-  for(i = 0; i < savedEvents.length; i++) {
-    var divId = savedEvents[i].hour;
-    var desVal = savedEvents[i].des;
-    $('#' + divId).children().eq(1).text(desVal);
+  //if eventsList array isn't empty
+  if(eventsList !== null) {
+    //loop through saved objects
+    for(i = 0; i < eventsList.length; i++) {
+      //get div id from key value pair
+      var divId = eventsList[i].hour;
+      //get entered text from key value pair
+      var desVal = eventsList[i].des;
+      //select div with matching id, set text of textarea with entered text
+      $('#' + divId).children().eq(1).text(desVal);
+    }
   }
 
-  //
-  // TODO: Add code to display the current date in the header of the page.
+  //display current date to currentDay paragraph in header
   $('#currentDay').text(dayjs().format('ddd, MMM D'));
 });
