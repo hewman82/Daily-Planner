@@ -22,7 +22,7 @@ $(function () {
   })
 
   //save current time in 24 hour format
-  var hour = 11; /*dayjs().format('H');*/
+  var hour = dayjs().format('H');
   //loop through child divs of section element
   for(i=0;i<9;i++) {
     //if div id matches current time
