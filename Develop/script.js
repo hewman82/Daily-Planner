@@ -19,11 +19,10 @@ $(function () {
     eventsList.push(events);
     //save array to storage
     localStorage.setItem('calEvents', JSON.stringify(eventsList));
-    console.log(eventsList);
   })
 
   //save current time in 24 hour format
-  var hour = dayjs().format('H');
+  var hour = 11; /*dayjs().format('H');*/
   //loop through child divs of section element
   for(i=0;i<9;i++) {
     //if div id matches current time
