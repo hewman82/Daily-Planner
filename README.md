@@ -10,3 +10,4 @@ Save tasks that need to be completed throughout your work day in the textbox nex
 Licensed Under The MIT License
 
 ## Project Link
+![Screenshot](https://github.com/hewman82/Daily-Planner/blob/main/Develop/ScheduleImg.png)
